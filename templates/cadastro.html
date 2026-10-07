@@ -73,21 +73,139 @@
 </head>
 
 <body>
-     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+         <!-- NAV PADRÃO - para cumprir os requisitos do professor -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
         <div class="container">
+
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('index') }}">
-                <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Logo HD2R"><span class="fw-bold">HD2R</span>
+                <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Logo HD2R"
+                    style="height:52px; width:auto; background:#fff; border-radius:8px; padding:3px;">
+                <span class="fw-bold">HD2R</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="menu">
+
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('index') }}"><i class="bi bi-house-door"></i> Início</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('cadastro') }}"><i class="bi bi-person-plus"></i> Munícipes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('listagem') }}"><i class="bi bi-people"></i> Listagem</a></li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">
+                            <i class="bi bi-house-door"></i>
+                            Início
+                        </a>
+                    </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-people"></i>
+                            Munícipe
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+                                <h6 class="dropdown-header">
+                                    Munícipes
+                                </h6>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('cadastro') }}">
+                                    <i class="bi bi-person-plus me-2"></i>
+                                    Cadastrar Munícipe
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('listagem') }}">
+                                    <i class="bi bi-people me-2"></i>
+                                    Listar Munícipes
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-file-earmark-text"></i>
+                            Processo
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+                                <h6 class="dropdown-header">
+                                    Processos
+                                </h6>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('cadastro_processo') }}">
+                                    <i class="bi bi-file-earmark-plus me-2"></i>
+                                    Novo Processo
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('listagem_processo') }}">
+                                    <i class="bi bi-list-ul me-2"></i>
+                                    Listar Processos
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-building"></i>
+                            Inscrição Municipal
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li>
+                                <h6 class="dropdown-header">
+                                    Inscrição Municipal
+                                </h6>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('cadastro_inscricao') }}">
+                                    <i class="bi bi-building-add me-2"></i>
+                                    Nova Inscrição
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('listagem_inscricao') }}">
+                                    <i class="bi bi-list-ul me-2"></i>
+                                    Listar Inscrições
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
                 </ul>
             </div>
         </div>
     </nav>
+
     <main class="container py-5">
         <div class="card p-4 p-md-5">
             <div class="mb-4">
