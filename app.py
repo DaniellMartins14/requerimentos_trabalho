@@ -46,6 +46,11 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
         nome = request.form.get("nome", "").strip()
         telefone = request.form.get("telefone", "").strip()
         endereco = request.form.get("endereco", "").strip()
+        cep = request.form.get("cep", "").strip()
+        numero = request.form.get("numero", "").strip() or "S/N"
+        cidade = request.form.get("cidade", "").strip()
+        estado = request.form.get("estado", "").strip()
+        complemento = request.form.get("complemento", "").strip()
         email = request.form.get("email", "").strip()
         cpf = request.form.get("cpf", "").strip()
         data_nascimento = request.form.get("data_nascimento", "").strip()
@@ -57,6 +62,9 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
         if not nome: erros.append("Informe o nome.")
         if not telefone: erros.append("Informe o telefone.")
         if not endereco: erros.append("Informe o endereço.")
+        if not cep: erros.append("Informe o CEP.")
+        if not cidade: erros.append("Informe a cidade.")
+        if not estado: erros.append("Informe o estado.")
         if not email: erros.append("Informe o e-mail.")
         if not cpf: erros.append("Informe o CPF.")
         elif not validar_cpf(cpf): erros.append("CPF inválido. Confira os números digitados.")
@@ -79,6 +87,11 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
             "nome": nome,
             "telefone": telefone,
             "endereco": endereco,
+            "cep": cep,
+            "numero": numero,
+            "cidade": cidade,
+            "estado": estado,
+            "complemento": complemento,
             "email": email,
             "cpf": formatar_cpf(cpf),
             "data_nascimento": data_nascimento,

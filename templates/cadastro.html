@@ -69,7 +69,6 @@
             font-size: 0.8rem;
             opacity: 0.7;
         }
-
     </style>
 </head>
 
@@ -114,13 +113,83 @@
                     <div class="col-md-6"><label for="email" class="form-label fw-semibold">E-mail *</label><input
                             type="email" class="form-control" id="email" name="email" placeholder="nome@email.com"
                             value="{{ dados.get('email','') }}" required></div>
-                    <div class="col-12"><label for="endereco" class="form-label fw-semibold">Endereço *</label><input
-                            type="text" class="form-control" id="endereco" name="endereco"
-                            placeholder="Rua, número, bairro" value="{{ dados.get('endereco','') }}" required></div>
+                    <div class="col-md-8">
+                        <label for="endereco" class="form-label fw-semibold">Endereço *</label>
+                        <input type="text" class="form-control" id="endereco" name="endereco"
+                            placeholder="Rua, Avenida, etc." value="{{ dados.get('endereco','') }}" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="numero" class="form-label fw-semibold">Número</label>
+                        <input type="text" class="form-control" id="numero" name="numero" placeholder="Número ou S/N"
+                            value="{{ dados.get('numero','') }}">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="cep" class="form-label fw-semibold">CEP *</label>
+                        <input type="text" class="form-control" id="cep" name="cep" placeholder="00000-000"
+                            maxlength="9" value="{{ dados.get('cep','') }}" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="cidade" class="form-label fw-semibold">Cidade *</label>
+                        <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Nome da cidade"
+                            value="{{ dados.get('cidade','') }}" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="estado" class="form-label fw-semibold">Estado *</label>
+                        <select class="form-select" id="estado" name="estado" required>
+                            <option value="">Selecione...</option>
+                            <option value="AC" {% if dados.get('estado')=='AC' %}selected{% endif %}>Acre</option>
+                            <option value="AL" {% if dados.get('estado')=='AL' %}selected{% endif %}>Alagoas</option>
+                            <option value="AP" {% if dados.get('estado')=='AP' %}selected{% endif %}>Amapá</option>
+                            <option value="AM" {% if dados.get('estado')=='AM' %}selected{% endif %}>Amazonas</option>
+                            <option value="BA" {% if dados.get('estado')=='BA' %}selected{% endif %}>Bahia</option>
+                            <option value="CE" {% if dados.get('estado')=='CE' %}selected{% endif %}>Ceará</option>
+                            <option value="DF" {% if dados.get('estado')=='DF' %}selected{% endif %}>Distrito Federal
+                            </option>
+                            <option value="ES" {% if dados.get('estado')=='ES' %}selected{% endif %}>Espírito Santo
+                            </option>
+                            <option value="GO" {% if dados.get('estado')=='GO' %}selected{% endif %}>Goiás</option>
+                            <option value="MA" {% if dados.get('estado')=='MA' %}selected{% endif %}>Maranhão</option>
+                            <option value="MT" {% if dados.get('estado')=='MT' %}selected{% endif %}>Mato Grosso
+                            </option>
+                            <option value="MS" {% if dados.get('estado')=='MS' %}selected{% endif %}>Mato Grosso do Sul
+                            </option>
+                            <option value="MG" {% if dados.get('estado')=='MG' %}selected{% endif %}>Minas Gerais
+                            </option>
+                            <option value="PA" {% if dados.get('estado')=='PA' %}selected{% endif %}>Pará</option>
+                            <option value="PB" {% if dados.get('estado')=='PB' %}selected{% endif %}>Paraíba</option>
+                            <option value="PR" {% if dados.get('estado')=='PR' %}selected{% endif %}>Paraná</option>
+                            <option value="PE" {% if dados.get('estado')=='PE' %}selected{% endif %}>Pernambuco</option>
+                            <option value="PI" {% if dados.get('estado')=='PI' %}selected{% endif %}>Piauí</option>
+                            <option value="RJ" {% if dados.get('estado')=='RJ' %}selected{% endif %}>Rio de Janeiro
+                            </option>
+                            <option value="RN" {% if dados.get('estado')=='RN' %}selected{% endif %}>Rio Grande do Norte
+                            </option>
+                            <option value="RS" {% if dados.get('estado')=='RS' %}selected{% endif %}>Rio Grande do Sul
+                            </option>
+                            <option value="RO" {% if dados.get('estado')=='RO' %}selected{% endif %}>Rondônia</option>
+                            <option value="RR" {% if dados.get('estado')=='RR' %}selected{% endif %}>Roraima</option>
+                            <option value="SC" {% if dados.get('estado')=='SC' %}selected{% endif %}>Santa Catarina
+                            </option>
+                            <option value="SP" {% if dados.get('estado')=='SP' %}selected{% endif %}>São Paulo</option>
+                            <option value="SE" {% if dados.get('estado')=='SE' %}selected{% endif %}>Sergipe</option>
+                            <option value="TO" {% if dados.get('estado')=='TO' %}selected{% endif %}>Tocantins</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="complemento" class="form-label fw-semibold">Complemento</label>
+                        <input type="text" class="form-control" id="complemento" name="complemento"
+                            placeholder="Apartamento, bloco, casa, etc. (opcional)"
+                            value="{{ dados.get('complemento','') }}">
+                    </div>
                     <div class="col-md-4"><label for="cpf" class="form-label fw-semibold">CPF *</label><input
                             type="text" class="form-control" id="cpf" name="cpf" placeholder="000.000.000-00"
                             maxlength="14" value="{{ dados.get('cpf','') }}" required>
-                        <div class="form-text">O CPF é validado no Python antes do cadastro.</div>
+                        <div class="form-text">O CPF será validado</div>
                     </div>
                     <div class="col-md-4"><label for="data_nascimento" class="form-label fw-semibold">Data de nascimento
                             *</label><input type="date" class="form-control" id="data_nascimento" name="data_nascimento"
@@ -134,7 +203,10 @@
                             </option>
                             <option value="administrador" {% if nivel_acesso=='administrador' %}selected{% endif %}>
                                 Administrador</option>
-                        </select></div>
+                        </select>
+                        <div class="form-text">Selecione munícipe, para obter os dois campos extras solicitados na atividade</div>
+
+                    </div>
                 </div>
                 <div id="dadosMunicipe" class="mt-5" {% if nivel_acesso!='municipe' %}style="display:none;" {% endif %}>
                     <h2 class="h5 section-title mb-4"><i class="bi bi-heart-pulse"></i> Informações de atendimento</h2>
@@ -171,7 +243,8 @@
         </div>
     </main>
     <footer class="py-4 mt-5">
-        <div class="container text-center"><strong> HD2R | CADASTRO DE MUNÍCIPES</strong><br><small>Made by Daniel Martins & Eduarda Koehler</small></div>
+        <div class="container text-center"><strong> HD2R | CADASTRO DE MUNÍCIPES</strong><br><small>Made by Daniel
+                Martins & Eduarda Koehler</small></div>
     </footer>
     <script>const nivelAcesso = document.getElementById('nivel_acesso'); const dadosMunicipe = document.getElementById('dadosMunicipe'); function atualizarCamposMunicipe() {dadosMunicipe.style.display = nivelAcesso.value === 'municipe' ? 'block' : 'none'} nivelAcesso.addEventListener('change', atualizarCamposMunicipe); document.getElementById('cpf').addEventListener('input', function () {let v = this.value.replace(/\D/g, '').slice(0, 11); v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2'); this.value = v});</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
