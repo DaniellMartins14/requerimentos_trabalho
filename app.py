@@ -5,7 +5,20 @@ app.secret_key = "chave-desenvolvimento-cadastro-municipes"
 ## usando o secret key, por que se não, o flash não funciona
 ##o flash será usado para exibir erro, mensagem etc
 
-municipes = [] ## armazenar dados dos munícipes, sem banco de dados os dados reiniciam ao reiniciar o flask
+municipes = [] ## armazenar dados, sem banco de dados os dados reiniciam ao reiniciar o flask
+processos = []
+inscricoes = []
+
+## verifica se o usuario existe - para não ter um processo do "scoobdoo 123"
+def municipe_existe(nome):
+    """Verifica se o nome informado corresponde a um munícipe já cadastrado."""
+    nome_normalizado = " ".join((nome or "").split()).casefold()
+
+    return any(
+        " ".join(municipe["nome"].split()).casefold() == nome_normalizado
+        for municipe in municipes
+    )
+
 
 ## validação de cpf -- peguei o código no github. Daniel.
 ## funciona por meio do calculo dos número e verifica resultados esperados
@@ -105,10 +118,112 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
     return render_template("cadastro.html", dados={}, nivel_acesso="")
 
 
+
+
 @app.route("/listagem") ## define a rota de listagem, e manda os munícipes 
 def listagem():
     return render_template("listagem.html", municipes=municipes)
 
+
+
+## formulario simples
+@app.route("/cadastro_processo", methods=["GET", "POST"])
+def cadastro_processo():
+    if request.method == "POST":
+        municipe = request.form.get("municipe", "").strip()
+        pedido = request.form.get("pedido", "").strip()
+        erros = []
+
+        if not municipe:
+            erros.append("Informe o nome do munícipe.")
+        elif not municipe_existe(municipe):
+            erros.append("Munícipe não encontrado. Crie um cadastro antes.")
+
+        if not pedido:
+            erros.append("Informe o pedido.")
+
+        if erros:
+            for erro in erros:
+                flash(erro, "danger")
+
+            return render_template(
+                "cadastro_processo.html",
+                dados=request.form.to_dict()
+            )
+
+        processos.append({
+            "id": len(processos) + 1,
+            "municipe": municipe,
+            "pedido": pedido
+        })
+
+        flash("Processo simples cadastrado com sucesso!", "success")
+
+        return redirect(url_for("listagem_processo"))
+
+    return render_template("cadastro_processo.html", dados={})
+
+
+## lista os processos
+@app.route("/listagem_processo")
+def listagem_processo():
+    return render_template(
+        "listagem_processo.html",
+        processos=processos
+    )
+
+
+
+## formulario de inscrição municipal (dados simulados - documentos requeridos variam de acordo com knae numa situação real)
+@app.route("/cadastro_inscricao", methods=["GET", "POST"])
+def cadastro_inscricao():
+    if request.method == "POST":
+        municipe = request.form.get("municipe", "").strip()
+        cnpj = request.form.get("cnpj", "").strip()
+        codigo_atividade = request.form.get("codigo_atividade", "").strip()
+        erros = []
+
+        if not municipe:
+            erros.append("Informe o nome do munícipe.")
+        elif not municipe_existe(municipe):
+            erros.append("Munícipe não encontrado. Crie um cadastro antes.")
+
+        if not cnpj:
+            erros.append("Informe o CNPJ da empresa.")
+
+        if not codigo_atividade:
+            erros.append("Informe o código de atividade.")
+
+        if erros:
+            for erro in erros:
+                flash(erro, "danger")
+
+            return render_template(
+                "cadastro_inscricao.html",
+                dados=request.form.to_dict()
+            )
+
+        inscricoes.append({
+            "id": len(inscricoes) + 1,
+            "municipe": municipe,
+            "cnpj": cnpj,
+            "codigo_atividade": codigo_atividade
+        })
+
+        flash("Inscrição municipal cadastrada com sucesso!", "success")
+
+        return redirect(url_for("listagem_inscricao"))
+
+    return render_template("cadastro_inscricao.html", dados={})
+
+## inscrições
+
+@app.route("/listagem_inscricao")
+def listagem_inscricao():
+    return render_template(
+        "listagem_inscricao.html",
+        inscricoes=inscricoes
+    )
 
 ## ultimo ponto do arquivo
 if __name__ == "__main__":

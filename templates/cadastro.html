@@ -73,16 +73,17 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
-        <div class="container"><a class="navbar-brand d-flex align-items-center gap-2"
-                href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo.jpeg') }}"
-                    alt="Logo HD2R"><span class="fw-bold">HD2R</span></a><button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
+     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Logo HD2R"><span class="fw-bold">HD2R</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}">Início</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('cadastro') }}">Cadastro</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('listagem') }}">Listagem</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('index') }}"><i class="bi bi-house-door"></i> Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('cadastro') }}"><i class="bi bi-person-plus"></i> Munícipes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('listagem') }}"><i class="bi bi-people"></i> Listagem</a></li>
                 </ul>
             </div>
         </div>
@@ -204,7 +205,7 @@
                             <option value="administrador" {% if nivel_acesso=='administrador' %}selected{% endif %}>
                                 Administrador</option>
                         </select>
-                        <div class="form-text">Selecione munícipe, para obter os dois campos extras solicitados na atividade</div>
+                        <div class="form-text">Selecione munícipe, para obter os dois campos extras (para fim de correção) </div>
 
                     </div>
                 </div>
