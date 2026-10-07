@@ -5,7 +5,7 @@ app.secret_key = "chave-desenvolvimento-cadastro-municipes"
 ## usando o secret key, por que se não, o flash não funciona
 ##o flash será usado para exibir erro, mensagem etc
 
-municipes = [] ## armazenar dados dos munícipes
+municipes = [] ## armazenar dados dos munícipes, sem banco de dados os dados reiniciam ao reiniciar o flask
 
 ## validação de cpf -- peguei o código no github. Daniel.
 ## funciona por meio do calculo dos número e verifica resultados esperados
@@ -26,7 +26,7 @@ def validar_cpf(cpf):
     digito2 = 0 if resto < 2 else 11 - resto
     return int(numeros[10]) == digito2
 
-## a função deixa "auto explicativa" 
+## formata o cpf no padrão 000.000.000-00 
 def formatar_cpf(cpf):
     numeros = "".join(filter(str.isdigit, cpf or ""))
     if len(numeros) == 11:
@@ -97,5 +97,6 @@ def listagem():
     return render_template("listagem.html", municipes=municipes)
 
 
+## ultimo ponto do arquivo
 if __name__ == "__main__":
     app.run(debug=True)

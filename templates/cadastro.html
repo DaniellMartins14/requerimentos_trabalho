@@ -64,6 +64,12 @@
         footer {
             color: #fff
         }
+
+        footer small {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
     </style>
 </head>
 
@@ -165,7 +171,7 @@
         </div>
     </main>
     <footer class="py-4 mt-5">
-        <div class="container text-center"><small>HD2R — Cadastro de munícipes</small></div>
+        <div class="container text-center"><strong> HD2R | CADASTRO DE MUNÍCIPES</strong><br><small>Made by Daniel Martins & Eduarda Koehler</small></div>
     </footer>
     <script>const nivelAcesso = document.getElementById('nivel_acesso'); const dadosMunicipe = document.getElementById('dadosMunicipe'); function atualizarCamposMunicipe() {dadosMunicipe.style.display = nivelAcesso.value === 'municipe' ? 'block' : 'none'} nivelAcesso.addEventListener('change', atualizarCamposMunicipe); document.getElementById('cpf').addEventListener('input', function () {let v = this.value.replace(/\D/g, '').slice(0, 11); v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2'); this.value = v});</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
