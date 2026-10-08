@@ -189,11 +189,27 @@
                         </ul>
                     </li>
 
+                    {# LOGIN/LOGOUT: mostra Sair quando a pessoa está logada, senão Entrar #}
+                    {% if session.get('municipe_id') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Sair ({{ session.get('municipe_nome', '').split(' ')[0] }})
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Entrar
+                        </a>
+                    </li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>
     </nav>
-
     <main class="container py-5">{% with mensagens=get_flashed_messages(with_categories=true) %}{% if mensagens %}{% for
         categoria,mensagem in mensagens %}<div class="alert alert-{{ categoria }} alert-dismissible fade show">{{
             mensagem }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}{%

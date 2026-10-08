@@ -22,6 +22,7 @@
 </head>
 <body>
         <!-- NAV PADRÃO - para cumprir os requisitos do professor -->
+       <!-- NAV PADRÃO - para cumprir os requisitos do professor -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
         <div class="container">
 
@@ -148,6 +149,23 @@
 
                         </ul>
                     </li>
+
+                    {# LOGIN/LOGOUT: mostra Sair quando a pessoa está logada, senão Entrar #}
+                    {% if session.get('municipe_id') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Sair ({{ session.get('municipe_nome', '').split(' ')[0] }})
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Entrar
+                        </a>
+                    </li>
+                    {% endif %}
 
                 </ul>
             </div>

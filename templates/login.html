@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | HD2R</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        :root {
+            --bege: #f3ead7;
+            --bege-claro: #fbf8f0;
+            --verde: #1f4d32
+        }
+
+        body {
+            background: var(--bege-claro);
+            color: #243329;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1
+        }
+
+        .navbar-custom,
+        footer {
+            background: var(--verde)
+        }
+
+        .navbar-brand img {
+            height: 52px;
+            background: #fff;
+            border-radius: 8px;
+            padding: 3px
+        }
+
+        .card {
+            border: 0;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(31, 77, 50, .10)
+        }
+
+        .section-title {
+            color: var(--verde);
+            border-bottom: 2px solid var(--bege);
+            padding-bottom: 10px
+        }
+
+        .btn-verde {
+            background: var(--verde);
+            color: #fff;
+            border: 0
+        }
+
+        .btn-verde:hover {
+            background: #153a25;
+            color: #fff
+        }
+
+        footer {
+            color: #fff
+        }
+
+        footer small {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAV simplificado: na tela de login ainda não há acesso às demais páginas -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+        <div class="container">
+
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('login') }}">
+                <img src="{{ url_for('static', filename='img/logo.jpeg') }}" alt="Logo HD2R"
+                    style="height:52px; width:auto; background:#fff; border-radius:8px; padding:3px;">
+                <span class="fw-bold">HD2R</span>
+            </a>
+
+            <ul class="navbar-nav ms-auto flex-row">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('cadastro') }}">
+                        <i class="bi bi-person-plus"></i>
+                        Criar cadastro
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-5">
+                <div class="card p-4 p-md-5">
+                    <div class="mb-4 text-center">
+                        <i class="bi bi-person-circle display-4 text-success"></i>
+                        <h1 class="h2 fw-bold mt-2">Entrar</h1>
+                        <p class="text-secondary mb-0">Acesse o sistema com o e-mail e a senha do seu cadastro.</p>
+                    </div>
+
+                    {% with mensagens=get_flashed_messages(with_categories=true) %}{% if mensagens %}{% for
+                    categoria,mensagem in mensagens %}<div class="alert alert-{{ categoria }} alert-dismissible fade show">
+                        {{ mensagem }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{%
+                    endfor %}{% endif %}{% endwith %}
+
+                    <form method="POST" action="{{ url_for('login') }}" id="formLogin" novalidate>
+                        <input type="hidden" name="next" value="{{ proximo or '' }}">
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold">E-mail *</label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                placeholder="nome@email.com" value="{{ dados.get('email','') }}"
+                                autocomplete="username" autofocus required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="senha" class="form-label fw-semibold">Senha *</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="senha" name="senha"
+                                    placeholder="Digite sua senha" autocomplete="current-password" required>
+                                <button type="button" class="btn btn-outline-secondary" id="mostrarSenha"
+                                    aria-label="Mostrar ou ocultar a senha">
+                                    <i class="bi bi-eye" id="iconeSenha"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-verde btn-lg"><i
+                                    class="bi bi-box-arrow-in-right"></i> Entrar</button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4">
+                    <p class="text-center text-secondary mb-0">Ainda não tem cadastro?
+                        <a href="{{ url_for('cadastro') }}" class="fw-semibold text-success">Cadastre-se</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-4 mt-5">
+        <div class="container text-center"><strong> HD2R | CADASTRO DE MUNÍCIPES</strong><br><small>Made by Daniel
+                Martins & Eduarda Koehler</small></div>
+    </footer>
+
+    <script>
+        // botão do olhinho: alterna entre mostrar e ocultar a senha digitada
+        const campoSenha = document.getElementById('senha');
+        const iconeSenha = document.getElementById('iconeSenha');
+        document.getElementById('mostrarSenha').addEventListener('click', function () {
+            const oculta = campoSenha.type === 'password';
+            campoSenha.type = oculta ? 'text' : 'password';
+            iconeSenha.className = oculta ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

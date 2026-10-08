@@ -201,6 +201,23 @@
                         </ul>
                     </li>
 
+                    {# LOGIN/LOGOUT: mostra Sair quando a pessoa está logada, senão Entrar #}
+                    {% if session.get('municipe_id') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Sair ({{ session.get('municipe_nome', '').split(' ')[0] }})
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                            Entrar
+                        </a>
+                    </li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>
@@ -327,7 +344,23 @@
 
                     </div>
                 </div>
-                <div id="dadosMunicipe" class="mt-5" {% if nivel_acesso!='municipe' %}style="display:none;" {% endif %}>
+                <div class="mt-5">
+                    <h2 class="h5 section-title mb-4"><i class="bi bi-shield-lock"></i> Acesso ao sistema</h2>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="senha" class="form-label fw-semibold">Senha *</label>
+                            <input type="password" class="form-control" id="senha" name="senha" minlength="6"
+                                autocomplete="new-password" required>
+                            <div class="form-text">Mínimo de 6 caracteres. O login é feito com o e-mail e esta senha.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="confirmar_senha" class="form-label fw-semibold">Confirmar senha *</label>
+                            <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha"
+                                minlength="6" autocomplete="new-password" required>
+                        </div>
+                    </div>
+                </div>
+                <div id="dadosMunicipe" class="mt-5"{% if nivel_acesso!='municipe' %}style="display:none;" {% endif %}>
                     <h2 class="h5 section-title mb-4"><i class="bi bi-heart-pulse"></i> Informações de atendimento</h2>
                     <div class="row g-3">
                         <div class="col-md-6"><label class="form-label fw-semibold d-block">É atendimento
