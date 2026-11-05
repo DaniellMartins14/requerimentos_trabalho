@@ -1,6 +1,6 @@
 {% extends "layout/base_menu.html" %}
 
-{% block titulo_aba %}Cadastro de Processo Simples | HD2R{% endblock %}
+{% block titulo_aba %}{% if editando %}Editar Processo{% else %}Cadastro de Processo Simples{% endif %} | HD2R{% endblock %}
 
 {% block conteudo %}
 <main class="container py-5">
@@ -18,8 +18,8 @@
     <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
         <div class="mb-4">
             <span class="text-success fw-semibold small text-uppercase">Processos</span>
-            <h1 class="h2 fw-bold mt-1">Cadastro de Processo Simples</h1>
-            <p class="text-secondary mb-0">Preencha as informações para registrar a solicitação.</p>
+            <h1 class="h2 fw-bold mt-1">{% if editando %}Editar Processo{% else %}Cadastro de Processo Simples{% endif %}</h1>
+            <p class="text-secondary mb-0">{% if editando %}Altere as informações do processo.{% else %}Preencha as informações para registrar a solicitação.{% endif %}</p>
         </div>
 
         <form method="POST">
@@ -63,7 +63,7 @@
             <div class="d-flex justify-content-end gap-2">
                 <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">Cancelar</a>
                 <button type="submit" class="btn btn-verde px-4">
-                    <i class="bi bi-check-lg"></i> Cadastrar processo
+                    <i class="bi bi-check-lg"></i> {% if editando %}Salvar alterações{% else %}Cadastrar processo{% endif %}
                 </button>
             </div>
         </form>
