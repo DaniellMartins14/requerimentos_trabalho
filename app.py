@@ -447,7 +447,7 @@ def cadastro_inscricao():
             )
 
         inscricoes.append({
-            "id": len(inscricoes) + 1,
+            "id": proximo_id(inscricoes),
             "municipe": municipe,
             "cnpj": cnpj,
             "codigo_atividade": codigo_atividade,
@@ -459,6 +459,42 @@ def cadastro_inscricao():
         return redirect(url_for("listagem_inscricao"))
 
     return render_template("inscricao_municipal/cadastro.html", dados={})
+
+
+@app.route("/editar_inscricao/<int:registro_id>", methods=["GET", "POST"])
+@login_required
+def editar_inscricao(registro_id):
+    inscricao = registro_por_id(inscricoes, registro_id)
+    if not inscricao:
+        flash("Inscrição municipal não encontrada.", "warning")
+        return redirect(url_for("listagem_inscricao"))
+
+    campos = ["municipe", "cnpj", "codigo_atividade", "nome_fantasia"]
+    if request.method == "POST":
+        dados = {campo: request.form.get(campo, "").strip() for campo in campos}
+        dados["atividade_secundaria"] = request.form.get("atividade_secundaria", "").strip() or None
+        if any(not dados[campo] for campo in campos):
+            flash("Preencha todos os campos obrigatórios.", "danger")
+            return render_template("inscricao_municipal/cadastro.html", dados=dados,
+                                   editando=True, registro_id=registro_id)
+        inscricao.update(dados)
+        flash("Inscrição municipal atualizada com sucesso!", "success")
+        return redirect(url_for("listagem_inscricao"))
+
+    return render_template("inscricao_municipal/cadastro.html", dados=inscricao,
+                           editando=True, registro_id=registro_id)
+
+
+@app.route("/remover_inscricao/<int:registro_id>", methods=["POST"])
+@login_required
+def remover_inscricao(registro_id):
+    inscricao = registro_por_id(inscricoes, registro_id)
+    if inscricao:
+        inscricoes.remove(inscricao)
+        flash("Inscrição municipal removida com sucesso!", "success")
+    else:
+        flash("Inscrição municipal não encontrada.", "warning")
+    return redirect(url_for("listagem_inscricao"))
 
 ## inscrições
 
