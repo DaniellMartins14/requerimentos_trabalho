@@ -2,59 +2,6 @@
 
 {% block title %}Listagem de Processos Simples | HD2R{% endblock %}
 
-{% block styles %}
-<style>
-        :root {
-            --bege-claro: #fbf8f0;
-            --verde: #1f4d32
-        }
-
-        body {
-            background: var(--bege-claro);
-            color: #243329;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column
-        }
-
-        main {
-            flex: 1
-        }
-
-        .navbar-custom,
-        footer {
-            background: var(--verde)
-        }
-
-        .navbar-brand img {
-            height: 52px;
-            background: #fff;
-            border-radius: 8px;
-            padding: 3px
-        }
-
-        .card {
-            border: 0;
-            border-radius: 18px;
-            box-shadow: 0 6px 20px rgba(31, 77, 50, .10)
-        }
-
-        .table thead th {
-            background: var(--verde);
-            color: #fff;
-            white-space: nowrap
-        }
-
-        footer {
-            color: #fff
-        }
-
-        footer small {
-            font-size: .8rem;
-            opacity: .7
-        }
-    </style>
-{% endblock %}
 
 {% block content %}
 <main class="container py-5">{% with mensagens=get_flashed_messages(with_categories=true) %}{% if mensagens %}{% for
