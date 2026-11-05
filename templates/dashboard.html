@@ -1,0 +1,106 @@
+{% extends "layout/base_menu.html" %}
+
+{% block titulo_aba %}HD2R - Painel inicial{% endblock %}
+
+{% block conteudo %}
+<main class="container py-4 py-lg-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-4">
+        <div>
+            <span class="text-success fw-semibold small text-uppercase">HD2R | Gestão municipal</span>
+            <h1 class="fw-bold mb-1">Painel inicial</h1>
+            <p class="text-secondary mb-0">Visão geral dos cadastros e solicitações do sistema.</p>
+        </div>
+        <span class="badge rounded-pill text-bg-light border px-3 py-2">
+            <i class="bi bi-bar-chart-line me-1 text-success"></i> Indicadores gerais
+        </span>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <section class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="text-secondary mb-2">Munícipes cadastrados</p>
+                            <h2 class="display-5 fw-bold mb-0">{{ total_municipes }}</h2>
+                        </div>
+                        <span class="rounded-3 bg-success-subtle text-success p-3">
+                            <i class="bi bi-people fs-3"></i>
+                        </span>
+                    </div>
+                    <p class="small text-secondary mb-0 mt-3">Total de pessoas registradas no sistema</p>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-md-4">
+            <section class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="text-secondary mb-2">Processos solicitados</p>
+                            <h2 class="display-5 fw-bold mb-0">{{ total_processos }}</h2>
+                        </div>
+                        <span class="rounded-3 bg-primary-subtle text-primary p-3">
+                            <i class="bi bi-file-earmark-text fs-3"></i>
+                        </span>
+                    </div>
+                    <p class="small text-secondary mb-0 mt-3">Total de processos simples registrados</p>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-md-4">
+            <section class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="text-secondary mb-2">Inscrições municipais</p>
+                            <h2 class="display-5 fw-bold mb-0">{{ total_inscricoes }}</h2>
+                        </div>
+                        <span class="rounded-3 bg-warning-subtle text-warning-emphasis p-3">
+                            <i class="bi bi-building fs-3"></i>
+                        </span>
+                    </div>
+                    <p class="small text-secondary mb-0 mt-3">Total de inscrições realizadas</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <section class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4 p-lg-5">
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <i class="bi bi-shield-lock text-success fs-4"></i>
+                <h2 class="h4 fw-bold mb-0">Munícipes por nível de acesso</h2>
+            </div>
+            <p class="text-secondary mb-4">Distribuição dos usuários conforme o perfil cadastrado.</p>
+
+            <div class="row g-4">
+                {% for nivel in niveis_acesso %}
+                <div class="col-md-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold">{{ nivel.nome }}</span>
+                        <span class="fw-bold">{{ nivel.total }}</span>
+                    </div>
+                    <div class="progress rounded-pill" role="progressbar"
+                         aria-label="Percentual de {{ nivel.nome }}"
+                         aria-valuenow="{{ nivel.percentual }}" aria-valuemin="0" aria-valuemax="100"
+                         style="height: 12px;">
+                        <div class="progress-bar bg-success" style="width: {{ nivel.percentual }}%"></div>
+                    </div>
+                    <p class="small text-secondary mt-2 mb-0">{{ nivel.percentual }}% dos cadastros</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if total_municipes == 0 %}
+            <p class="small text-secondary mt-4 mb-0">
+                <i class="bi bi-info-circle me-1"></i>
+                Ainda não há munícipes cadastrados para compor a distribuição.
+            </p>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}
