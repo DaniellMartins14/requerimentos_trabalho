@@ -92,7 +92,30 @@ def formatar_cpf(cpf):
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html", total_municipes=len(municipes))
+    total_municipes = len(municipes)
+    niveis_acesso = [
+        {"nome": "Munícipe", "chave": "municipe", "total": 0},
+        {"nome": "Servidor", "chave": "servidor", "total": 0},
+        {"nome": "Administrador", "chave": "administrador", "total": 0},
+    ]
+
+    for nivel in niveis_acesso:
+        nivel["total"] = sum(
+            1 for municipe in municipes
+            if municipe.get("nivel_acesso") == nivel["chave"]
+        )
+        nivel["percentual"] = (
+            round(nivel["total"] / total_municipes * 100)
+            if total_municipes else 0
+        )
+
+    return render_template(
+        "index.html",
+        total_municipes=total_municipes,
+        niveis_acesso=niveis_acesso,
+        total_processos=len(processos),
+        total_inscricoes=len(inscricoes),
+    )
 
 
 ## tela de login: confere e-mail e senha do cadastro de munícipe
