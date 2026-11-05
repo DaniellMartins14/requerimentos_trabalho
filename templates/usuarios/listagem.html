@@ -31,7 +31,7 @@
                             <th>CEP</th>
                             <th>Cidade</th>
                             <th>Estado</th>
-                            <th>Complemento</th>
+                            <th>Complemento</th><th class="text-end">Ações</th>
                         </tr>
                     </thead>
                     <tbody>{% for municipe in municipes %}<tr>
@@ -51,7 +51,7 @@
                             <td>{{ municipe.cep }}</td>
                             <td>{{ municipe.cidade }}</td>
                             <td>{{ municipe.estado }}</td>
-                            <td>{{ municipe.complemento or '—' }}</td>
+                            <td>{{ municipe.complemento or '—' }}</td><td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('editar_municipe', registro_id=municipe.id) }}"><i class="bi bi-pencil"></i> Editar</a> <form method="POST" class="d-inline" action="{{ url_for('remover_municipe', registro_id=municipe.id) }}" onsubmit="return confirm('Remover este munícipe?')"><button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i> Remover</button></form></td>
                         </tr>{% endfor %}</tbody>
                 </table>
             </div>{% else %}<div class="text-center py-5"><i class="bi bi-people display-3 text-secondary"></i>
