@@ -357,7 +357,7 @@ def cadastro_processo():
             )
 
         processos.append({
-            "id": len(processos) + 1,
+            "id": proximo_id(processos),
             "municipe": municipe,
             "data_execucao": data_execucao,
             "solicitacao": solicitacao,
@@ -380,6 +380,40 @@ def listagem_processo():
         processos=processos
     )
 
+@app.route("/editar_processo/<int:registro_id>", methods=["GET", "POST"])
+@login_required
+def editar_processo(registro_id):
+    processo = registro_por_id(processos, registro_id)
+    if not processo:
+        flash("Processo não encontrado.", "warning")
+        return redirect(url_for("listagem_processo"))
+
+    campos = ["municipe", "data_execucao", "solicitacao",
+              "local_execucao", "secretaria_destinada"]
+    if request.method == "POST":
+        dados = {campo: request.form.get(campo, "").strip() for campo in campos}
+        if any(not dados[campo] for campo in campos):
+            flash("Preencha todos os campos obrigatórios.", "danger")
+            return render_template("processo/cadastro.html", dados=dados,
+                                   editando=True, registro_id=registro_id)
+        processo.update(dados)
+        flash("Processo atualizado com sucesso!", "success")
+        return redirect(url_for("listagem_processo"))
+
+    return render_template("processo/cadastro.html", dados=processo,
+                           editando=True, registro_id=registro_id)
+
+
+@app.route("/remover_processo/<int:registro_id>", methods=["POST"])
+@login_required
+def remover_processo(registro_id):
+    processo = registro_por_id(processos, registro_id)
+    if processo:
+        processos.remove(processo)
+        flash("Processo removido com sucesso!", "success")
+    else:
+        flash("Processo não encontrado.", "warning")
+    return redirect(url_for("listagem_processo"))
 
 
 ## formulario de inscrição municipal (dados simulados - documentos requeridos variam de acordo com knae numa situação real)
