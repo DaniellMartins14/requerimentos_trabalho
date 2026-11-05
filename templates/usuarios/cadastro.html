@@ -1,14 +1,14 @@
 {% extends "layout/base_menu.html" %}
 
-{% block titulo_aba %}Cadastro de Munícipe | HD2R{% endblock %}
+{% block titulo_aba %}{% if editando %}Editar Munícipe{% else %}Cadastro de Munícipe{% endif %} | HD2R{% endblock %}
 
 
 {% block conteudo %}
 <main class="container py-5">
         <div class="card p-4 p-md-5">
             <div class="mb-4">
-                <h1 class="h2 fw-bold">Cadastro de Munícipe</h1>
-                <p class="text-secondary mb-0">Preencha os dados abaixo para realizar um novo cadastro.</p>
+                <h1 class="h2 fw-bold">{% if editando %}Editar Munícipe{% else %}Cadastro de Munícipe{% endif %}</h1>
+                <p class="text-secondary mb-0">{% if editando %}Altere os dados. Deixe a senha em branco para mantê-la.{% else %}Preencha os dados abaixo para realizar um novo cadastro.{% endif %}</p>
             </div>
 
             <!-- JINJA QUE FAZ APARECER OS CAMPOS NECESSÁRIOS NO CASO DO NOVO USUÁRIO SER MUNÍCIPE -->
@@ -18,7 +18,7 @@
             endwith %}
 
             <!-- ESSA PARTE AQUI, PEGA AS INFORMAÇÕES E MANDA COMO POST, PARA SER USADO NA LÓGICA DE IF DO PYTHON -->
-            <form method="POST" action="{{ url_for('cadastro') }}" id="formCadastro">
+            <form method="POST" action="{% if editando %}{{ url_for('editar_municipe', registro_id=registro_id) }}{% else %}{{ url_for('cadastro') }}{% endif %}" id="formCadastro">
                 <h2 class="h5 section-title mb-4"><i class="bi bi-person-vcard"></i> Dados pessoais</h2>
                 <div class="row g-3">
                     <div class="col-12"><label for="nome" class="form-label fw-semibold">Nome completo *</label><input
@@ -129,13 +129,13 @@
                     <h2 class="h5 section-title mb-4"><i class="bi bi-shield-lock"></i> Acesso ao sistema</h2>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="senha" class="form-label fw-semibold">Senha *</label>
+                            <label for="senha" class="form-label fw-semibold">Senha {% if not editando %}*{% else %}(opcional){% endif %}</label>
                             <input type="password" class="form-control" id="senha" name="senha" minlength="6"
-                                autocomplete="new-password" required>
+                                autocomplete="new-password" {% if not editando %}required{% endif %}>
                             <div class="form-text">Mínimo de 6 caracteres. O login é feito com o e-mail e esta senha.</div>
                         </div>
                         <div class="col-md-6">
-                            <label for="confirmar_senha" class="form-label fw-semibold">Confirmar senha *</label>
+                            <label for="confirmar_senha" class="form-label fw-semibold">Confirmar senha {% if not editando %}*{% else %}(opcional){% endif %}</label>
                             <input type="password" class="form-control" id="confirmar_senha" name="confirmar_senha"
                                 minlength="6" autocomplete="new-password" required>
                         </div>
@@ -144,7 +144,7 @@
                 <hr class="my-5">
                 <div class="d-flex justify-content-end gap-2"><a href="{{ url_for('index') }}"
                         class="btn btn-outline-secondary">Cancelar</a><button type="submit"
-                        class="btn btn-verde px-4"><i class="bi bi-check-lg"></i> Cadastrar</button></div>
+                        class="btn btn-verde px-4"><i class="bi bi-check-lg"></i> {% if editando %}Salvar alterações{% else %}Cadastrar{% endif %}</button></div>
             </form>
         </div>
     </main>
