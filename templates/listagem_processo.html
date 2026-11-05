@@ -2,40 +2,65 @@
 
 {% block title %}Listagem de Processos Simples | HD2R{% endblock %}
 
-
 {% block content %}
-<main class="container py-5">{% with mensagens=get_flashed_messages(with_categories=true) %}{% if mensagens %}{% for
-        categoria,mensagem in mensagens %}<div class="alert alert-{{ categoria }} alert-dismissible fade show">{{
-            mensagem }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}{%
-        endif %}{% endwith %}<div
-            class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-            <div>
-                <h1 class="h2 fw-bold">Listagem de Processos Simples</h1>
-                <p class="text-secondary mb-0">Consulte os processos cadastrados nesta execução do sistema.</p>
-            </div><a href="{{ url_for('cadastro_processo') }}" class="btn btn-success"><i class="bi bi-plus-circle"></i>
-                Novo processo</a>
-        </div>
-        <div class="card p-3 p-md-4">{% if processos %}<div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nome do munícipe</th>
-                            <th>Pedido</th>
-                        </tr>
-                    </thead>
-                    <tbody>{% for processo in processos %}<tr>
-                            <td>{{ processo.id }}</td>
-                            <td class="fw-semibold">{{ processo.municipe }}</td>
-                            <td style="white-space:pre-wrap">{{ processo.pedido }}</td>
-                        </tr>{% endfor %}</tbody>
-                </table>
-            </div>{% else %}<div class="text-center py-5"><i
-                    class="bi bi-file-earmark-text display-3 text-secondary"></i>
-                <h2 class="h4 mt-3">Nenhum processo encontrado</h2>
-                <p class="text-secondary">Ainda não existem processos simples cadastrados.</p><a
-                    href="{{ url_for('cadastro_processo') }}" class="btn btn-success">Cadastrar primeiro processo</a>
-            </div>{% endif %}</div>
-    </main>
-{% endblock %}
+<main class="container py-5">
+    {% with mensagens=get_flashed_messages(with_categories=true) %}
+        {% if mensagens %}
+            {% for categoria, mensagem in mensagens %}
+                <div class="alert alert-{{ categoria }} alert-dismissible fade show">
+                    {{ mensagem }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <h1 class="h2 fw-bold">Listagem de Processos Simples</h1>
+            <p class="text-secondary mb-0">Consulte os processos cadastrados nesta execução do sistema.</p>
+        </div>
+        <a href="{{ url_for('cadastro_processo') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Novo processo
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-3 p-md-4">
+        {% if processos %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Munícipe</th>
+                        <th>Data a ser executado</th>
+                        <th>Solicitação</th>
+                        <th>Local de execução</th>
+                        <th>Secretaria destinada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for processo in processos %}
+                    <tr>
+                        <td>{{ processo.id }}</td>
+                        <td class="fw-semibold">{{ processo.municipe }}</td>
+                        <td>{{ processo.data_execucao }}</td>
+                        <td style="white-space: pre-wrap">{{ processo.solicitacao }}</td>
+                        <td>{{ processo.local_execucao }}</td>
+                        <td>{{ processo.secretaria_destinada }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-file-earmark-text display-3 text-secondary"></i>
+            <h2 class="h4 mt-3">Nenhum processo encontrado</h2>
+            <p class="text-secondary">Ainda não existem processos simples cadastrados.</p>
+            <a href="{{ url_for('cadastro_processo') }}" class="btn btn-success">Cadastrar primeiro processo</a>
+        </div>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}
