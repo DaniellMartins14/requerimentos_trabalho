@@ -1,6 +1,6 @@
 {% extends "layout/base_menu.html" %}
 
-{% block titulo_aba %}Cadastro de Inscrição Municipal | HD2R{% endblock %}
+{% block titulo_aba %}{% if editando %}Editar Inscrição Municipal{% else %}Cadastro de Inscrição Municipal{% endif %} | HD2R{% endblock %}
 
 {% block conteudo %}
 <main class="container py-5">
@@ -18,8 +18,8 @@
     <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
         <div class="mb-4">
             <span class="text-success fw-semibold small text-uppercase">Inscrição municipal</span>
-            <h1 class="h2 fw-bold mt-1">Cadastro de Inscrição Municipal</h1>
-            <p class="text-secondary mb-0">Preencha os dados do responsável e da atividade empresarial.</p>
+            <h1 class="h2 fw-bold mt-1">{% if editando %}Editar Inscrição Municipal{% else %}Cadastro de Inscrição Municipal{% endif %}</h1>
+            <p class="text-secondary mb-0">{% if editando %}Altere os dados do responsável e da atividade empresarial.{% else %}Preencha os dados do responsável e da atividade empresarial.{% endif %}</p>
         </div>
 
         <form method="POST">
@@ -64,7 +64,7 @@
             <div class="d-flex justify-content-end gap-2">
                 <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">Cancelar</a>
                 <button type="submit" class="btn btn-verde px-4">
-                    <i class="bi bi-check-lg"></i> Cadastrar inscrição
+                    <i class="bi bi-check-lg"></i> {% if editando %}Salvar alterações{% else %}Cadastrar inscrição{% endif %}
                 </button>
             </div>
         </form>
