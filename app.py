@@ -18,6 +18,14 @@ EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 TAMANHO_MINIMO_SENHA = 6
 
 
+def proximo_id(registros):
+    return max((registro["id"] for registro in registros), default=0) + 1
+
+
+def registro_por_id(registros, registro_id):
+    return next((registro for registro in registros if registro["id"] == registro_id), None)
+
+
 def email_valido(email):
     """Confere o formato básico do e-mail: texto@dominio.ext, sem espaços."""
     return bool(EMAIL_REGEX.match(email or ""))
@@ -215,7 +223,7 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
             return render_template("usuarios/cadastro.html", dados=dados, nivel_acesso=nivel_acesso)
 
         municipes.append({
-            "id": len(municipes) + 1,
+            "id": proximo_id(municipes),
             "nome": nome,
             "telefone": telefone,
             "endereco": endereco,
@@ -246,6 +254,74 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
 def listagem():
     return render_template("usuarios/listagem.html", municipes=municipes)
 
+
+@app.route("/editar_municipe/<int:registro_id>", methods=["GET", "POST"])
+@login_required
+def editar_municipe(registro_id):
+    municipe = registro_por_id(municipes, registro_id)
+    if not municipe:
+        flash("Munícipe não encontrado.", "warning")
+        return redirect(url_for("listagem"))
+
+    if request.method == "POST":
+        dados = {campo: request.form.get(campo, "").strip() for campo in [
+            "nome", "telefone", "endereco", "cep", "cidade", "estado",
+            "email", "cpf", "data_nascimento", "nivel_acesso"
+        ]}
+        dados["numero"] = request.form.get("numero", "").strip() or "S/N"
+        dados["complemento"] = request.form.get("complemento", "").strip()
+        senha = request.form.get("senha", "")
+        confirmar_senha = request.form.get("confirmar_senha", "")
+        erros = []
+        obrigatorios = ["nome", "telefone", "endereco", "cep", "cidade", "estado",
+                        "email", "cpf", "data_nascimento", "nivel_acesso"]
+        if any(not dados[campo] for campo in obrigatorios):
+            erros.append("Preencha todos os campos obrigatórios.")
+        if dados["email"] and not email_valido(dados["email"]):
+            erros.append("E-mail inválido. Use o formato nome@email.com.")
+        if any(outro["id"] != registro_id and outro["email"].strip().casefold() == dados["email"].casefold() for outro in municipes):
+            erros.append("Já existe outro cadastro com este e-mail.")
+        if dados["cpf"] and not validar_cpf(dados["cpf"]):
+            erros.append("CPF inválido. Confira os números digitados.")
+        if dados["nivel_acesso"] not in ["municipe", "servidor", "administrador"]:
+            erros.append("Selecione um nível de acesso válido.")
+        if senha and len(senha) < TAMANHO_MINIMO_SENHA:
+            erros.append("A senha deve ter pelo menos 6 caracteres.")
+        if senha and senha != confirmar_senha:
+            erros.append("As senhas não conferem.")
+
+        if erros:
+            for erro in erros:
+                flash(erro, "danger")
+            return render_template("usuarios/cadastro.html", dados=dados,
+                                   nivel_acesso=dados["nivel_acesso"],
+                                   editando=True, registro_id=registro_id)
+
+        municipe.update(dados)
+        municipe["cpf"] = formatar_cpf(dados["cpf"])
+        if senha:
+            municipe["senha_hash"] = generate_password_hash(senha)
+        flash("Munícipe atualizado com sucesso!", "success")
+        return redirect(url_for("listagem"))
+
+    dados = {chave: valor for chave, valor in municipe.items() if chave != "senha_hash"}
+    return render_template("usuarios/cadastro.html", dados=dados,
+                           nivel_acesso=municipe["nivel_acesso"],
+                           editando=True, registro_id=registro_id)
+
+
+@app.route("/remover_municipe/<int:registro_id>", methods=["POST"])
+@login_required
+def remover_municipe(registro_id):
+    municipe = registro_por_id(municipes, registro_id)
+    if not municipe:
+        flash("Munícipe não encontrado.", "warning")
+    elif municipe["id"] == session.get("municipe_id"):
+        flash("Você não pode remover o usuário que está conectado.", "danger")
+    else:
+        municipes.remove(municipe)
+        flash("Munícipe removido com sucesso!", "success")
+    return redirect(url_for("listagem"))
 
 
 ## formulario simples
