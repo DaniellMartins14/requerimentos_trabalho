@@ -37,6 +37,7 @@
                         <th>Solicitação</th>
                         <th>Local de execução</th>
                         <th>Secretaria destinada</th>
+                        <th class="text-end">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +49,12 @@
                         <td style="white-space: pre-wrap">{{ processo.solicitacao }}</td>
                         <td>{{ processo.local_execucao }}</td>
                         <td>{{ processo.secretaria_destinada }}</td>
+                        <td class="text-end text-nowrap">
+                            <a href="{{ url_for('editar_processo', registro_id=processo.id) }}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i> Editar</a>
+                            <form method="POST" action="{{ url_for('remover_processo', registro_id=processo.id) }}" class="d-inline" onsubmit="return confirm('Tem certeza que deseja remover este processo?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Remover"><i class="bi bi-trash"></i> Remover</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
