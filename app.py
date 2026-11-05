@@ -254,16 +254,22 @@ def listagem():
 def cadastro_processo():
     if request.method == "POST":
         municipe = request.form.get("municipe", "").strip()
-        pedido = request.form.get("pedido", "").strip()
+        data_execucao = request.form.get("data_execucao", "").strip()
+        solicitacao = request.form.get("solicitacao", "").strip()
+        local_execucao = request.form.get("local_execucao", "").strip()
+        secretaria_destinada = request.form.get("secretaria_destinada", "").strip()
         erros = []
 
         if not municipe:
             erros.append("Informe o nome do munícipe.")
-        elif not municipe_existe(municipe):
-            erros.append("Munícipe não encontrado. Crie um cadastro antes.")
-
-        if not pedido:
-            erros.append("Informe o pedido.")
+        if not data_execucao:
+            erros.append("Informe a data a ser executada.")
+        if not solicitacao:
+            erros.append("Descreva a solicitação.")
+        if not local_execucao:
+            erros.append("Informe o local de execução.")
+        if not secretaria_destinada:
+            erros.append("Informe a secretaria destinada.")
 
         if erros:
             for erro in erros:
@@ -277,11 +283,13 @@ def cadastro_processo():
         processos.append({
             "id": len(processos) + 1,
             "municipe": municipe,
-            "pedido": pedido
+            "data_execucao": data_execucao,
+            "solicitacao": solicitacao,
+            "local_execucao": local_execucao,
+            "secretaria_destinada": secretaria_destinada
         })
 
         flash("Processo simples cadastrado com sucesso!", "success")
-
         return redirect(url_for("listagem_processo"))
 
     return render_template("cadastro_processo.html", dados={})
