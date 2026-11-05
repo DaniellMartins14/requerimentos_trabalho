@@ -141,33 +141,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="dadosMunicipe" class="mt-5"{% if nivel_acesso!='municipe' %}style="display:none;" {% endif %}>
-                    <h2 class="h5 section-title mb-4"><i class="bi bi-heart-pulse"></i> Informações de atendimento</h2>
-                    <div class="row g-3">
-                        <div class="col-md-6"><label class="form-label fw-semibold d-block">É atendimento
-                                preferencial?</label>
-                            <div class="form-check form-check-inline"><input class="form-check-input" type="radio"
-                                    name="preferencial" id="preferencialSim" value="Sim" {% if
-                                    dados.get('preferencial')=='Sim' %}checked{% endif %}><label
-                                    class="form-check-label" for="preferencialSim">Sim</label></div>
-                            <div class="form-check form-check-inline"><input class="form-check-input" type="radio"
-                                    name="preferencial" id="preferencialNao" value="Não" {% if
-                                    dados.get('preferencial','Não')=='Não' %}checked{% endif %}><label
-                                    class="form-check-label" for="preferencialNao">Não</label></div>
-                        </div>
-                        <div class="col-md-6"><label class="form-label fw-semibold d-block">Tem cadastro do
-                                CRAS?</label>
-                            <div class="form-check form-check-inline"><input class="form-check-input" type="radio"
-                                    name="cadastro_cras" id="crasSim" value="Sim" {% if
-                                    dados.get('cadastro_cras')=='Sim' %}checked{% endif %}><label
-                                    class="form-check-label" for="crasSim">Sim</label></div>
-                            <div class="form-check form-check-inline"><input class="form-check-input" type="radio"
-                                    name="cadastro_cras" id="crasNao" value="Não" {% if
-                                    dados.get('cadastro_cras','Não')=='Não' %}checked{% endif %}><label
-                                    class="form-check-label" for="crasNao">Não</label></div>
-                        </div>
-                    </div>
-                </div>
                 <hr class="my-5">
                 <div class="d-flex justify-content-end gap-2"><a href="{{ url_for('index') }}"
                         class="btn btn-outline-secondary">Cancelar</a><button type="submit"
@@ -178,5 +151,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>const nivelAcesso = document.getElementById('nivel_acesso'); const dadosMunicipe = document.getElementById('dadosMunicipe'); function atualizarCamposMunicipe() {dadosMunicipe.style.display = nivelAcesso.value === 'municipe' ? 'block' : 'none'} nivelAcesso.addEventListener('change', atualizarCamposMunicipe); document.getElementById('cpf').addEventListener('input', function () {let v = this.value.replace(/\D/g, '').slice(0, 11); v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2'); this.value = v});</script>
+<script>document.getElementById('cpf').addEventListener('input', function () {let v = this.value.replace(/\D/g, '').slice(0, 11); v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2'); this.value = v});</script>
 {% endblock %}
