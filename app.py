@@ -314,18 +314,20 @@ def cadastro_inscricao():
         municipe = request.form.get("municipe", "").strip()
         cnpj = request.form.get("cnpj", "").strip()
         codigo_atividade = request.form.get("codigo_atividade", "").strip()
+        atividade_secundaria = request.form.get("atividade_secundaria", "").strip()
+        nome_fantasia = request.form.get("nome_fantasia", "").strip()
         erros = []
 
         if not municipe:
             erros.append("Informe o nome do munícipe.")
-        elif not municipe_existe(municipe):
-            erros.append("Munícipe não encontrado. Crie um cadastro antes.")
-
         if not cnpj:
             erros.append("Informe o CNPJ da empresa.")
-
         if not codigo_atividade:
             erros.append("Informe o código de atividade.")
+        if not atividade_secundaria:
+            erros.append("Informe a atividade secundária.")
+        if not nome_fantasia:
+            erros.append("Informe o nome fantasia.")
 
         if erros:
             for erro in erros:
@@ -340,11 +342,12 @@ def cadastro_inscricao():
             "id": len(inscricoes) + 1,
             "municipe": municipe,
             "cnpj": cnpj,
-            "codigo_atividade": codigo_atividade
+            "codigo_atividade": codigo_atividade,
+            "atividade_secundaria": atividade_secundaria,
+            "nome_fantasia": nome_fantasia
         })
 
         flash("Inscrição municipal cadastrada com sucesso!", "success")
-
         return redirect(url_for("listagem_inscricao"))
 
     return render_template("cadastro_inscricao.html", dados={})
