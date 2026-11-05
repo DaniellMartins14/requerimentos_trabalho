@@ -314,7 +314,7 @@ def cadastro_inscricao():
         municipe = request.form.get("municipe", "").strip()
         cnpj = request.form.get("cnpj", "").strip()
         codigo_atividade = request.form.get("codigo_atividade", "").strip()
-        atividade_secundaria = request.form.get("atividade_secundaria", "").strip()
+        atividade_secundaria = request.form.get("atividade_secundaria", "").strip() or None
         nome_fantasia = request.form.get("nome_fantasia", "").strip()
         erros = []
 
@@ -324,8 +324,6 @@ def cadastro_inscricao():
             erros.append("Informe o CNPJ da empresa.")
         if not codigo_atividade:
             erros.append("Informe o código de atividade.")
-        if not atividade_secundaria:
-            erros.append("Informe a atividade secundária.")
         if not nome_fantasia:
             erros.append("Informe o nome fantasia.")
 
