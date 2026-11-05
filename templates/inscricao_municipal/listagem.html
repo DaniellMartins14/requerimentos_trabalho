@@ -37,6 +37,7 @@
                         <th>Código de atividade</th>
                         <th>Atividade secundária</th>
                         <th>Nome fantasia</th>
+                        <th class="text-end">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +49,12 @@
                         <td>{{ inscricao.codigo_atividade }}</td>
                         <td>{{ inscricao.atividade_secundaria }}</td>
                         <td>{{ inscricao.nome_fantasia }}</td>
+                        <td class="text-end text-nowrap">
+                            <a href="{{ url_for('editar_inscricao', registro_id=inscricao.id) }}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i> Editar</a>
+                            <form method="POST" action="{{ url_for('remover_inscricao', registro_id=inscricao.id) }}" class="d-inline" onsubmit="return confirm('Tem certeza que deseja remover esta inscrição municipal?');">
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Remover"><i class="bi bi-trash"></i> Remover</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
