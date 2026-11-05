@@ -110,7 +110,7 @@ def index():
         )
 
     return render_template(
-        "index.html",
+        "dashboard.html",
         total_municipes=total_municipes,
         niveis_acesso=niveis_acesso,
         total_processos=len(processos),
@@ -212,7 +212,7 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
             dados = request.form.to_dict()
             dados.pop("senha", None) ## nunca devolve a senha para a tela
             dados.pop("confirmar_senha", None)
-            return render_template("cadastro.html", dados=dados, nivel_acesso=nivel_acesso)
+            return render_template("usuarios/cadastro.html", dados=dados, nivel_acesso=nivel_acesso)
 
         municipes.append({
             "id": len(municipes) + 1,
@@ -236,7 +236,7 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
         flash("Agora faça login para acessar o sistema.", "info")
         return redirect(url_for("login"))
 
-    return render_template("cadastro.html", dados={}, nivel_acesso="")
+    return render_template("usuarios/cadastro.html", dados={}, nivel_acesso="")
 
 
 
@@ -244,7 +244,7 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
 @app.route("/listagem") ## define a rota de listagem, e manda os munícipes
 @login_required
 def listagem():
-    return render_template("listagem.html", municipes=municipes)
+    return render_template("usuarios/listagem.html", municipes=municipes)
 
 
 
@@ -276,7 +276,7 @@ def cadastro_processo():
                 flash(erro, "danger")
 
             return render_template(
-                "cadastro_processo.html",
+                "processo/cadastro.html",
                 dados=request.form.to_dict()
             )
 
@@ -292,7 +292,7 @@ def cadastro_processo():
         flash("Processo simples cadastrado com sucesso!", "success")
         return redirect(url_for("listagem_processo"))
 
-    return render_template("cadastro_processo.html", dados={})
+    return render_template("processo/cadastro.html", dados={})
 
 
 ## lista os processos
@@ -300,7 +300,7 @@ def cadastro_processo():
 @login_required
 def listagem_processo():
     return render_template(
-        "listagem_processo.html",
+        "processo/listagem.html",
         processos=processos
     )
 
@@ -332,7 +332,7 @@ def cadastro_inscricao():
                 flash(erro, "danger")
 
             return render_template(
-                "cadastro_inscricao.html",
+                "inscricao_municipal/cadastro.html",
                 dados=request.form.to_dict()
             )
 
@@ -348,7 +348,7 @@ def cadastro_inscricao():
         flash("Inscrição municipal cadastrada com sucesso!", "success")
         return redirect(url_for("listagem_inscricao"))
 
-    return render_template("cadastro_inscricao.html", dados={})
+    return render_template("inscricao_municipal/cadastro.html", dados={})
 
 ## inscrições
 
@@ -356,9 +356,20 @@ def cadastro_inscricao():
 @login_required
 def listagem_inscricao():
     return render_template(
-        "listagem_inscricao.html",
+        "inscricao_municipal/listagem.html",
         inscricoes=inscricoes
     )
+
+
+@app.errorhandler(404)
+def pagina_nao_encontrada(erro):
+    return render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def erro_interno(erro):
+    return render_template("500.html"), 500
+
 
 ## ultimo ponto do arquivo
 if __name__ == "__main__":
