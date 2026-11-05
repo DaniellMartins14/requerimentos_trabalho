@@ -160,8 +160,6 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
         cpf = request.form.get("cpf", "").strip()
         data_nascimento = request.form.get("data_nascimento", "").strip()
         nivel_acesso = request.form.get("nivel_acesso", "").strip()
-        preferencial = request.form.get("preferencial", "Não")
-        cadastro_cras = request.form.get("cadastro_cras", "Não")
         senha = request.form.get("senha", "") ## senha não leva strip(): espaços podem fazer parte dela
         confirmar_senha = request.form.get("confirmar_senha", "")
 
@@ -185,10 +183,6 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
         elif len(senha) < TAMANHO_MINIMO_SENHA: erros.append(f"A senha deve ter pelo menos {TAMANHO_MINIMO_SENHA} caracteres.")
         elif senha != confirmar_senha: erros.append("As senhas não conferem.")
 
-        if nivel_acesso != "municipe":
-            preferencial = "Não"
-            cadastro_cras = "Não"
-
         if erros:
             for erro in erros:
                 flash(erro, "danger")
@@ -211,8 +205,6 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
             "cpf": formatar_cpf(cpf),
             "data_nascimento": data_nascimento,
             "nivel_acesso": nivel_acesso,
-            "preferencial": preferencial,
-            "cadastro_cras": cadastro_cras,
             "senha_hash": generate_password_hash(senha), ## guarda só o hash, nunca a senha em texto
         })
         flash("Munícipe cadastrado com sucesso!", "success")
