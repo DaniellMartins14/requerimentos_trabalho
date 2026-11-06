@@ -52,6 +52,7 @@
                         <td class="text-end text-nowrap">
                             <a href="{{ url_for('editar_inscricao', registro_id=inscricao.id) }}" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i> Editar</a>
                             <form method="POST" action="{{ url_for('remover_inscricao', registro_id=inscricao.id) }}" class="d-inline" onsubmit="return confirm('Tem certeza que deseja remover esta inscrição municipal?');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="btn btn-sm btn-outline-danger" title="Remover"><i class="bi bi-trash"></i> Remover</button>
                             </form>
                         </td>
