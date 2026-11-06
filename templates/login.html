@@ -11,6 +11,7 @@
     </div>
     <form method="POST" action="{{ url_for('login') }}" id="formLogin" novalidate>
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="next" value="{{ proximo or '' }}">
         <div class="mb-3">
             <label for="email" class="form-label fw-semibold">E-mail *</label>
