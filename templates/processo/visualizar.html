@@ -1,0 +1,60 @@
+{% extends "layout/base_menu.html" %}
+
+{% block titulo_aba %}Processo #{{ processo.id }} | HD2R{% endblock %}
+
+{% block conteudo %}
+<main class="container py-5">
+    {% with mensagens=get_flashed_messages(with_categories=true) %}
+        {% if mensagens %}
+            {% for categoria, mensagem in mensagens %}
+                <div class="alert alert-{{ categoria }} alert-dismissible fade show">
+                    {{ mensagem }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <span class="text-success fw-semibold small text-uppercase">Detalhes do processo</span>
+            <h1 class="h2 fw-bold mb-1">Processo #{{ processo.id }}</h1>
+            <p class="text-secondary mb-0">Visualização completa da solicitação cadastrada.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('editar_processo', registro_id=processo.id) }}" class="btn btn-outline-primary">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+            <a href="{{ url_for('listagem_processo') }}" class="btn btn-outline-secondary">
+                Voltar à listagem
+            </a>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <span class="text-secondary small">Munícipe</span>
+                <p class="fw-semibold mb-0">{{ processo.municipe }}</p>
+            </div>
+            <div class="col-md-6">
+                <span class="text-secondary small">Data a ser executado</span>
+                <p class="fw-semibold mb-0">{{ processo.data_execucao }}</p>
+            </div>
+            <div class="col-md-6">
+                <span class="text-secondary small">Local de execução</span>
+                <p class="fw-semibold mb-0">{{ processo.local_execucao }}</p>
+            </div>
+            <div class="col-md-6">
+                <span class="text-secondary small">Secretaria destinada</span>
+                <p class="fw-semibold mb-0">{{ processo.secretaria_destinada }}</p>
+            </div>
+            <div class="col-12">
+                <hr>
+                <span class="text-secondary small">Solicitação completa</span>
+                <div class="bg-light rounded-3 p-3 mt-2" style="white-space: pre-wrap; overflow-wrap: anywhere;">{{ processo.solicitacao }}</div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
