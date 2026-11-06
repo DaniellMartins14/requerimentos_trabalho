@@ -23,6 +23,7 @@
         </div>
 
         <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="row g-4">
                 <div class="col-md-6">
                     <label for="municipe" class="form-label fw-semibold">Munícipe</label>
