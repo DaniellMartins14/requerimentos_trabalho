@@ -20,6 +20,7 @@
             <!-- ESSA PARTE AQUI, PEGA AS INFORMAÇÕES E MANDA COMO POST, PARA SER USADO NA LÓGICA DE IF DO PYTHON -->
             <form method="POST" action="{% if editando %}{{ url_for('editar_municipe', registro_id=registro_id) }}{% else %}{{ url_for('cadastro') }}{% endif %}" id="formCadastro">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <h2 class="h5 section-title mb-4"><i class="bi bi-person-vcard"></i> Dados pessoais</h2>
                 <div class="row g-3">
                     <div class="col-12"><label for="nome" class="form-label fw-semibold">Nome completo *</label><input
