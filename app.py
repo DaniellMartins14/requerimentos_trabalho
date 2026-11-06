@@ -1,11 +1,21 @@
+import os
 import re
 from functools import wraps
 
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import generate_password_hash, check_password_hash
 
+load_dotenv()
+
+from db import execute_one, execute_query
+
 app = Flask(__name__)
-app.secret_key = "chave-desenvolvimento-cadastro-municipes"
+app.secret_key = os.getenv("SECRET_KEY")
+if not app.secret_key:
+    raise RuntimeError("Defina SECRET_KEY no arquivo .env.")
+CSRFProtect(app)
 ## usando o secret key, por que se não, o flash não funciona
 ##o flash será usado para exibir erro, mensagem etc
 
@@ -100,17 +110,35 @@ def formatar_cpf(cpf):
 @app.route("/")
 @login_required
 def index():
-    total_municipes = len(municipes)
+    # O dashboard consulta diretamente as tres tabelas do MySQL.
+    municipes_db = execute_one(
+        "SELECT COUNT(*) AS total FROM municipes WHERE deletado_em IS NULL"
+    )
+    processos_db = execute_one(
+        "SELECT COUNT(*) AS total FROM processos WHERE deletado_em IS NULL"
+    )
+    inscricoes_db = execute_one(
+        "SELECT COUNT(*) AS total FROM inscricoes_municipais WHERE deletado_em IS NULL"
+    )
+
+    total_municipes = municipes_db["total"]
     niveis_acesso = [
         {"nome": "Munícipe", "chave": "municipe", "total": 0},
         {"nome": "Servidor", "chave": "servidor", "total": 0},
         {"nome": "Administrador", "chave": "administrador", "total": 0},
     ]
 
+    # A distribuicao por nivel sera alimentada pelo banco na migracao do cadastro.
+    niveis_db = execute_query(
+        "SELECT nivel_acesso, COUNT(*) AS total FROM municipes "
+        "WHERE deletado_em IS NULL GROUP BY nivel_acesso",
+        fetch=True,
+    )
     for nivel in niveis_acesso:
-        nivel["total"] = sum(
-            1 for municipe in municipes
-            if municipe.get("nivel_acesso") == nivel["chave"]
+        nivel["total"] = next(
+            (linha["total"] for linha in niveis_db
+             if linha["nivel_acesso"] == nivel["chave"]),
+            0,
         )
         nivel["percentual"] = (
             round(nivel["total"] / total_municipes * 100)
@@ -121,8 +149,8 @@ def index():
         "dashboard.html",
         total_municipes=total_municipes,
         niveis_acesso=niveis_acesso,
-        total_processos=len(processos),
-        total_inscricoes=len(inscricoes),
+        total_processos=processos_db["total"],
+        total_inscricoes=inscricoes_db["total"],
     )
 
 
