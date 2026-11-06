@@ -380,6 +380,17 @@ def listagem_processo():
         processos=processos
     )
 
+@app.route("/visualizar_processo/<int:registro_id>")
+@login_required
+def visualizar_processo(registro_id):
+    processo = registro_por_id(processos, registro_id)
+    if not processo:
+        flash("Processo não encontrado.", "warning")
+        return redirect(url_for("listagem_processo"))
+
+    return render_template("processo/visualizar.html", processo=processo)
+
+
 @app.route("/editar_processo/<int:registro_id>", methods=["GET", "POST"])
 @login_required
 def editar_processo(registro_id):
