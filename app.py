@@ -254,6 +254,7 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
 def listagem():
     return render_template("usuarios/listagem.html", municipes=municipes)
 
+## edita elemento
 
 @app.route("/editar_municipe/<int:registro_id>", methods=["GET", "POST"])
 @login_required
@@ -309,6 +310,8 @@ def editar_municipe(registro_id):
                            nivel_acesso=municipe["nivel_acesso"],
                            editando=True, registro_id=registro_id)
 
+
+##remove elemento da listagem
 
 @app.route("/remover_municipe/<int:registro_id>", methods=["POST"])
 @login_required
@@ -390,6 +393,7 @@ def visualizar_processo(registro_id):
 
     return render_template("processo/visualizar.html", processo=processo)
 
+## edita elemento
 
 @app.route("/editar_processo/<int:registro_id>", methods=["GET", "POST"])
 @login_required
@@ -414,6 +418,8 @@ def editar_processo(registro_id):
     return render_template("processo/cadastro.html", dados=processo,
                            editando=True, registro_id=registro_id)
 
+
+##remove elemento da listagem
 
 @app.route("/remover_processo/<int:registro_id>", methods=["POST"])
 @login_required
@@ -471,7 +477,7 @@ def cadastro_inscricao():
 
     return render_template("inscricao_municipal/cadastro.html", dados={})
 
-
+## edita elemento
 @app.route("/editar_inscricao/<int:registro_id>", methods=["GET", "POST"])
 @login_required
 def editar_inscricao(registro_id):
@@ -496,6 +502,7 @@ def editar_inscricao(registro_id):
                            editando=True, registro_id=registro_id)
 
 
+##remove elemento da listagem
 @app.route("/remover_inscricao/<int:registro_id>", methods=["POST"])
 @login_required
 def remover_inscricao(registro_id):
@@ -517,12 +524,14 @@ def listagem_inscricao():
         inscricoes=inscricoes
     )
 
+## telas de erro
 
+##define not found
 @app.errorhandler(404)
 def pagina_nao_encontrada(erro):
     return render_template("404.html"), 404
 
-
+##degine erro interno
 @app.errorhandler(500)
 def erro_interno(erro):
     return render_template("500.html"), 500
