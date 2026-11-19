@@ -280,7 +280,7 @@ def cadastro(): ## se preencher o formulario, pega os dados pelo 'post'
 @app.route("/listagem") ## define a rota de listagem, e manda os munícipes
 @login_required
 def listagem():
-    return render_template("usuarios/listagem.html", municipes=municipes)
+    return render_template("usuarios/perfis-listar.html", municipes=municipes)
 
 ## edita elemento
 
