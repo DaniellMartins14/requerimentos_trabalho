@@ -30,14 +30,14 @@
                     <label for="municipe" class="form-label fw-semibold">Munícipe</label>
                     <input type="text" class="form-control" id="municipe" name="municipe"
                            value="{{ dados.get('municipe', '') }}"
-                           placeholder="Nome do munícipe" required>
+                           placeholder="Nome do munícipe"oninput="this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '')" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="cnpj" class="form-label fw-semibold">CNPJ</label>
                     <input type="text" class="form-control" id="cnpj" name="cnpj"
                            value="{{ dados.get('cnpj', '') }}"
-                           placeholder="00.000.000/0000-00" required>
+                           placeholder="00.000.000/0000-00" maxlength="14" minlength="14" oninput="this.value = this.value.replace(/\D/g, '')" required>
                 </div>
 
                 <div class="col-md-6">

@@ -28,9 +28,14 @@
             <div class="row g-4">
                 <div class="col-md-6">
                     <label for="municipe" class="form-label fw-semibold">Munícipe</label>
-                    <input type="text" class="form-control" id="municipe" name="municipe"
-                           value="{{ dados.get('municipe', '') }}"
-                           placeholder="Nome do munícipe" required>
+                    <input type="text"
+                        class="form-control"
+                        id="municipe"
+                        name="municipe"
+                        value="{{ dados.get('municipe', '') }}"
+                        placeholder="Nome do munícipe"
+                        oninput="this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '')"
+                        required>
                 </div>
 
                 <div class="col-md-6">

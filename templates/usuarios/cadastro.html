@@ -24,11 +24,11 @@
                 <h2 class="h5 section-title mb-4"><i class="bi bi-person-vcard"></i> Dados pessoais</h2>
                 <div class="row g-3">
                     <div class="col-12"><label for="nome" class="form-label fw-semibold">Nome completo *</label><input
-                            type="text" class="form-control" id="nome" name="nome" value="{{ dados.get('nome','') }}"
+                            type="text" class="form-control" id="nome" name="nome" value="{{ dados.get('nome','') }}"oninput="this.value = this.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '')"
                             required></div>
                     <div class="col-md-6"><label for="telefone" class="form-label fw-semibold">Telefone *</label><input
                             type="tel" class="form-control" id="telefone" name="telefone" placeholder="(14) 99999-9999"
-                            value="{{ dados.get('telefone','') }}" required></div>
+                            value="{{ dados.get('telefone','') }}" maxlength="15"  oninput="this.value = this.value.replace(/\D/g, '')" required></div>
                     <div class="col-md-6"><label for="email" class="form-label fw-semibold">E-mail *</label><input
                             type="email" class="form-control" id="email" name="email" placeholder="nome@email.com"
                             value="{{ dados.get('email','') }}" required></div>
@@ -47,7 +47,7 @@
                     <div class="col-md-4">
                         <label for="cep" class="form-label fw-semibold">CEP *</label>
                         <input type="text" class="form-control" id="cep" name="cep" placeholder="00000-000"
-                            maxlength="9" value="{{ dados.get('cep','') }}" required>
+                            maxlength="9" value="{{ dados.get('cep','') }}" maxlength="8" oninput="this.value = this.value.replace(/\D/g, '')" required>
                     </div>
 
                     <div class="col-md-4">
